@@ -15,7 +15,6 @@ export default [
     rules: {
       // Vue 相关规则
       'vue/multi-word-component-names': 'off', // 关闭组件名称多单词规则
-
     },
   },
   

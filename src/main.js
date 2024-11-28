@@ -8,8 +8,9 @@ import router from './router'
 import '@/styles/common.scss'
 
 const app = createApp(App)
+const pinia = createPinia()
 
-app.use(createPinia())
 app.use(router)
+app.use(pinia)
 
 app.mount('#app')

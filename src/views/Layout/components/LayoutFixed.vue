@@ -1,28 +1,21 @@
 <script setup>
 // vueUse
 import { useScroll } from '@vueuse/core'
-import { ref, onMounted } from 'vue'
-import { getCategoryAPI } from '@/apis/layout'
+import { useCategoryStore } from '@/stores/categoryStore';
 
 // vueuse
 const { y } = useScroll(window)
 
-const categoryList = ref([])
-const getCategory = async () => {
-    const res = await getCategoryAPI()
-    categoryList.value = res.result
-}
-
-onMounted(()=>getCategory())
+const categoryStore = useCategoryStore()
 </script>
 
 <template>
-  <div class="app-header-sticky" :class="{ show: y > 78 }">
+  <div class="app-header-sticky" :class="{ show: y > 78 }"> <!-- 移动距离大于 78 时显示吸顶导航 -->
     <div class="container">
       <RouterLink class="logo" to="/" />
       <!-- 导航区域 -->
       <ul class="app-header-nav ">
-        <li class="home" v-for="item in categoryList" :key="item.id">
+        <li class="home" v-for="item in categoryStore.categoryList" :key="item.id"> <!-- 从 pinia 中获取数据渲染 -->
           <RouterLink to="/">{{item.name}}</RouterLink>
         </li>
       </ul>
