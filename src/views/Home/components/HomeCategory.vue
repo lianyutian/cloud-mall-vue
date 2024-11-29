@@ -1,22 +1,28 @@
-<script setup></script>
+<script setup>
+import { useCategoryStore } from '@/stores/categoryStore'
+
+const categoryStore = useCategoryStore()
+</script>
 
 <template>
   <div class="home-category">
     <ul class="menu">
-      <li v-for="item in 9" :key="item">
-        <RouterLink to="/">居家</RouterLink>
-        <RouterLink v-for="i in 2" :key="i" to="/">南北干货</RouterLink>
+      <li v-for="item in categoryStore.categoryList" :key="item.id">
+        <RouterLink to="/">{{ item.name }}</RouterLink>
+        <RouterLink v-for="i in item.children.slice(0, 2)" :key="i" to="/">{{
+          i.name
+        }}</RouterLink>
         <!-- 弹层layer位置 -->
         <div class="layer">
           <h4>分类推荐 <small>根据您的购买或浏览记录推荐</small></h4>
           <ul>
-            <li v-for="i in 5" :key="i">
+            <li v-for="i in item.goods" :key="i.id">
               <RouterLink to="/">
                 <img alt="" />
                 <div class="info">
-                  <p class="name ellipsis-2">男士外套</p>
-                  <p class="desc ellipsis">男士外套，冬季必选</p>
-                  <p class="price"><i>¥</i>200.00</p>
+                  <p class="name ellipsis-2">{{ i.name }}</p>
+                  <p class="desc ellipsis">{{ i.desc }}</p>
+                  <p class="price"><i>¥</i>{{ i.price }}</p>
                 </div>
               </RouterLink>
             </li>
@@ -31,7 +37,7 @@
 .home-category {
   width: 250px;
   height: 500px;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.42);
   position: relative;
   z-index: 99;
 
