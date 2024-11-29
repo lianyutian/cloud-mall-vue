@@ -16,7 +16,7 @@ const categoryStore = useCategoryStore()
       <!-- 导航区域 -->
       <ul class="app-header-nav ">
         <li class="home" v-for="item in categoryStore.categoryList" :key="item.id"> <!-- 从 pinia 中获取数据渲染 -->
-          <RouterLink to="/">{{item.name}}</RouterLink>
+          <RouterLink to="/">{{ item.name }}</RouterLink>
         </li>
       </ul>
 
