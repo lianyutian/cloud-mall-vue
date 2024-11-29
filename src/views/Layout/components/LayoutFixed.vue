@@ -1,7 +1,7 @@
 <script setup>
 // vueUse
 import { useScroll } from '@vueuse/core'
-import { useCategoryStore } from '@/stores/categoryStore';
+import { useCategoryStore } from '@/stores/categoryStore'
 
 // vueuse
 const { y } = useScroll(window)
@@ -10,12 +10,18 @@ const categoryStore = useCategoryStore()
 </script>
 
 <template>
-  <div class="app-header-sticky" :class="{ show: y > 78 }"> <!-- 移动距离大于 78 时显示吸顶导航 -->
+  <div class="app-header-sticky" :class="{ show: y > 78 }">
+    <!-- 移动距离大于 78 时显示吸顶导航 -->
     <div class="container">
       <RouterLink class="logo" to="/" />
       <!-- 导航区域 -->
-      <ul class="app-header-nav ">
-        <li class="home" v-for="item in categoryStore.categoryList" :key="item.id"> <!-- 从 pinia 中获取数据渲染 -->
+      <ul class="app-header-nav">
+        <li
+          class="home"
+          v-for="item in categoryStore.categoryList"
+          :key="item.id"
+        >
+          <!-- 从 pinia 中获取数据渲染 -->
           <RouterLink to="/">{{ item.name }}</RouterLink>
         </li>
       </ul>
@@ -28,8 +34,7 @@ const categoryStore = useCategoryStore()
   </div>
 </template>
 
-
-<style scoped lang='scss'>
+<style scoped lang="scss">
 .app-header-sticky {
   width: 100%;
   height: 80px;
@@ -59,7 +64,7 @@ const categoryStore = useCategoryStore()
   .logo {
     width: 200px;
     height: 80px;
-    background: url("@/assets/images/logo.png") no-repeat right 2px;
+    background: url('@/assets/images/logo.png') no-repeat right 2px;
     background-size: 160px auto;
   }
 

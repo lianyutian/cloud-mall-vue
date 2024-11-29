@@ -1,8 +1,8 @@
 import http from '@/utils/http'
 
 // 获取一级分类
-export function getCategoryAPI () {
+export function getCategoryAPI() {
   return http({
-    url: '/home/category/head'
+    url: '/home/category/head',
   })
 }

@@ -4,7 +4,7 @@ import { ref } from 'vue'
 import { getCategoryAPI } from '@/apis/layout'
 
 // 定义并暴露一个store
-export const useCategoryStore = defineStore('category',() => {
+export const useCategoryStore = defineStore('category', () => {
   // 导航列表的数据管理
   // state 导航列表数据
   const categoryList = ref([])
@@ -17,6 +17,6 @@ export const useCategoryStore = defineStore('category',() => {
 
   return {
     categoryList,
-    getCategory
+    getCategory,
   }
 })

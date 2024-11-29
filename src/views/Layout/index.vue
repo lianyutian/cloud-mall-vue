@@ -18,8 +18,4 @@ onMounted(() => categoryStore.getCategory())
   <!-- 二级路由 -->
   <RouterView />
   <LayoutFooter />
-  <LayoutFooter />
-  <LayoutFooter />
-  <LayoutFooter />
-  <LayoutFooter />
 </template>

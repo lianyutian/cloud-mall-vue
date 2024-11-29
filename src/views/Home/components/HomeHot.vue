@@ -1,9 +1,7 @@
-<script setup>
-
-</script>
+<script setup></script>
 
 <template>
-    <div>HomeHot</div>
+  <div>HomeHot</div>
 </template>
 
 <style scoped lang="scss"></style>

@@ -1,14 +1,15 @@
-<script setup>
-
-</script>
+<script setup></script>
 
 <template>
   <nav class="app-topnav">
     <div class="container">
       <ul>
         <template v-if="true">
-          <li><a href="javascript:;"><i class="iconfont icon-user"></i>周杰伦</a></li>
-          <li>a
+          <li>
+            <a href="javascript:;"><i class="iconfont icon-user"></i>周杰伦</a>
+          </li>
+          <li>
+            a
             <a-popconfirm title="确认退出吗?" ok-text="确认" cancel-text="取消">
               <template #reference>
                 <a href="javascript:;">退出登录</a>
@@ -27,7 +28,6 @@
     </div>
   </nav>
 </template>
-
 
 <style scoped lang="scss">
 .app-topnav {
@@ -56,7 +56,7 @@
         }
       }
 
-      ~li {
+      ~ li {
         a {
           border-left: 2px solid #666;
         }

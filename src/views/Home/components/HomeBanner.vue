@@ -1,11 +1,7 @@
-<script setup>
-
-</script>
+<script setup></script>
 
 <template>
-    <div>
-        HomeBanner
-    </div>
+  <div>HomeBanner</div>
 </template>
 
 <style scoped lang="scss"></style>
