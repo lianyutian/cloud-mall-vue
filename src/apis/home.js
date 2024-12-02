@@ -16,5 +16,10 @@ export const getNewAPI = () => {
 
 // 获取人气推荐
 export const getHotAPI = () => {
-  return http('home/hot')
+  return http('/home/hot')
+}
+
+// 获取产品列表
+export const getGoodsAPI = () => {
+  return http('/home/goods')
 }
