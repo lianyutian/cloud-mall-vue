@@ -59,7 +59,6 @@ const handleScroll = (event) => {
   console.log(scrollHeight)
 
   if (scrollTop + clientHeight >= scrollHeight - 10 && !disable.value) {
-    debounceRef(req.value)
     load()
   }
 }
