@@ -1,12 +1,10 @@
 <script setup>
+import LayoutHeaderUl from './LayoutHeaderUl.vue'
 // vueUse
 import { useScroll } from '@vueuse/core'
-import { useCategoryStore } from '@/stores/categoryStore'
 
 // vueuse
 const { y } = useScroll(window)
-
-const categoryStore = useCategoryStore()
 </script>
 
 <template>
@@ -15,16 +13,7 @@ const categoryStore = useCategoryStore()
     <div class="container">
       <RouterLink class="logo" to="/" />
       <!-- 导航区域 -->
-      <ul class="app-header-nav">
-        <li
-          class="home"
-          v-for="item in categoryStore.categoryList"
-          :key="item.id"
-        >
-          <!-- 从 pinia 中获取数据渲染 -->
-          <RouterLink to="/">{{ item.name }}</RouterLink>
-        </li>
-      </ul>
+      <LayoutHeaderUl></LayoutHeaderUl>
 
       <div class="right">
         <RouterLink to="/">品牌</RouterLink>

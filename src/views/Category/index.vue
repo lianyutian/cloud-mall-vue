@@ -1,17 +1,10 @@
 <script setup>
-import { ref } from 'vue'
-import { getTopCategoryAPI } from '@/apis/category'
-import { useRoute } from 'vue-router'
+import GoodItem from '../Home/components/GoodItem.vue'
+import { useBanner } from './composables/useBanner'
+import { useCategory } from './composables/useCategory'
 
-const topCategory = ref({})
-const getTopCategory = async (id) => {
-  const res = await getTopCategoryAPI(id)
-  topCategory.value = res.result
-}
-
-const route = useRoute()
-
-getTopCategory(route.params.id)
+const { bannerList } = useBanner()
+const { topCategory } = useCategory()
 </script>
 
 <template>
@@ -25,6 +18,40 @@ getTopCategory(route.params.id)
           >
           <a-breadcrumb-item>{{ topCategory.name }}</a-breadcrumb-item>
         </a-breadcrumb>
+      </div>
+
+      <!-- 轮播图 -->
+      <div class="home-banner">
+        <a-carousel height="500px">
+          <div v-for="item in bannerList" :key="item.id">
+            <img :src="item.imgUrl" alt="" />
+          </div>
+        </a-carousel>
+      </div>
+
+      <!-- 分类商品列表 -->
+      <div class="sub-list">
+        <h3>全部分类</h3>
+        <ul>
+          <li v-for="i in topCategory.children" :key="i.id">
+            <RouterLink to="/">
+              <img :src="i.picture" />
+              <p>{{ i.name }}</p>
+            </RouterLink>
+          </li>
+        </ul>
+      </div>
+      <div
+        class="ref-goods"
+        v-for="item in topCategory.children"
+        :key="item.id"
+      >
+        <div class="head">
+          <h3>- {{ item.name }}-</h3>
+        </div>
+        <div class="body">
+          <GoodItem v-for="good in item.goods" :goods="good" :key="good.id" />
+        </div>
       </div>
     </div>
   </div>
@@ -105,6 +132,16 @@ getTopCategory(route.params.id)
 
   .bread-container {
     padding: 25px 0;
+  }
+
+  .home-banner {
+    width: 1240px;
+    height: 500px;
+    margin: 0 auto;
+    img {
+      width: 100%;
+      height: 500px;
+    }
   }
 }
 </style>
