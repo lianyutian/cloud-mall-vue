@@ -16,11 +16,11 @@ onMounted(() => getCategoryFilter())
 
 // 二级分类列表数据
 const goodList = ref([])
-const activeKey = ref()
+const activeName = ref('publishTime')
 const req = ref({
   categoryId: route.params.id,
   page: 1,
-  pageSize: 10,
+  pageSize: 20,
   sortField: 'publishTime',
 })
 const getSubCategory = async () => {
@@ -30,13 +30,14 @@ const getSubCategory = async () => {
 onMounted(() => getSubCategory())
 
 // 表格切换
-const onChange = (activeKey) => {
-  req.value.sortField = activeKey
+const onChange = (activeName) => {
+  req.value.sortField = activeName
+  req.value.page = 1
   getSubCategory()
 }
 
 // 滚动加载
-const disable = ref(false)
+const disabled = ref(false)
 const load = async () => {
   // 获取下一页的数据
   req.value.page++
@@ -44,52 +45,38 @@ const load = async () => {
   goodList.value = [...goodList.value, ...res.result.items]
   // 加载完毕 停止监听
   if (res.result.items.length === 0) {
-    disable.value = true
+    disabled.value = true
   }
 }
-// 监听是否滚动到底
-const handleScroll = (event) => {
-  console.log('滚动开始')
-  console.log(event)
-
-  const { scrollTop, clientHeight, scrollHeight } =
-    event.target.scrollingElement
-  console.log(scrollTop)
-  console.log(clientHeight)
-  console.log(scrollHeight)
-
-  if (scrollTop + clientHeight >= scrollHeight - 10 && !disable.value) {
-    load()
-  }
-}
-onMounted(() => {
-  window.addEventListener('scroll', handleScroll)
-})
 </script>
 
 <template>
   <div class="container">
     <!-- 面包屑 -->
     <div class="bread-container">
-      <a-breadcrumb separator=">">
-        <a-breadcrumb-item>
+      <el-breadcrumb separator=">">
+        <el-breadcrumb-item>
           <router-link to="/">首页</router-link>
-        </a-breadcrumb-item>
-        <a-breadcrumb-item
+        </el-breadcrumb-item>
+        <el-breadcrumb-item
           ><RouterLink :to="`/category/${categoryFilter.parentId}`">{{
             categoryFilter.parentName
-          }}</RouterLink></a-breadcrumb-item
+          }}</RouterLink></el-breadcrumb-item
         >
-        <a-breadcrumb-item>{{ categoryFilter.name }}</a-breadcrumb-item>
-      </a-breadcrumb>
+        <el-breadcrumb-item>{{ categoryFilter.name }}</el-breadcrumb-item>
+      </el-breadcrumb>
     </div>
     <div class="sub-container">
-      <a-tabs v-model:activeKey="activeKey" @change="onChange">
-        <a-tab-pane key="publishTime" tab="最新商品"></a-tab-pane>
-        <a-tab-pane key="orderNum" tab="最高人气"> </a-tab-pane>
-        <a-tab-pane key="evaluateNum" tab="评论最多"></a-tab-pane>
-      </a-tabs>
-      <div class="body" @scroll="handleScroll">
+      <el-tabs v-model="activeName" @change="onChange">
+        <el-tab-pane name="publishTime" label="最新商品"></el-tab-pane>
+        <el-tab-pane name="orderNum" label="最高人气"> </el-tab-pane>
+        <el-tab-pane name="evaluateNum" label="评论最多"></el-tab-pane>
+      </el-tabs>
+      <div
+        class="body"
+        v-infinite-scroll="load"
+        :infinite-scroll-disabled="disabled"
+      >
         <!-- 商品列表-->
         <GoodItem v-for="good in goodList" :goods="good" :key="good.id" />
       </div>
@@ -150,6 +137,7 @@ onMounted(() => {
     justify-content: center;
   }
 }
+
 .loading {
   text-align: center;
   padding: 10px;

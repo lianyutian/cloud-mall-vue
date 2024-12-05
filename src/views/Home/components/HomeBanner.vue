@@ -13,11 +13,11 @@ onMounted(() => getBanner())
 
 <template>
   <div class="home-banner">
-    <a-carousel height="500px" autoplay>
-      <div v-for="item in bannerList" :key="item.id">
+    <el-carousel height="500px" autoplay>
+      <el-carousel-item v-for="item in bannerList" :key="item.id">
         <img :src="item.imgUrl" alt="" />
-      </div>
-    </a-carousel>
+      </el-carousel-item>
+    </el-carousel>
   </div>
 </template>
 

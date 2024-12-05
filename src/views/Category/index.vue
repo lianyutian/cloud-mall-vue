@@ -12,21 +12,19 @@ const { topCategory } = useCategory()
     <div class="container m-top-20">
       <!-- 面包屑 -->
       <div class="bread-container">
-        <a-breadcrumb separator=">">
-          <a-breadcrumb-item
-            ><router-link to="/">首页</router-link></a-breadcrumb-item
-          >
-          <a-breadcrumb-item>{{ topCategory.name }}</a-breadcrumb-item>
-        </a-breadcrumb>
+        <el-breadcrumb separator=">">
+          <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+          <el-breadcrumb-item>{{ topCategory.name }}</el-breadcrumb-item>
+        </el-breadcrumb>
       </div>
 
       <!-- 轮播图 -->
       <div class="home-banner">
-        <a-carousel height="500px">
-          <div v-for="item in bannerList" :key="item.id">
+        <el-carousel height="500px" autoplay>
+          <el-carousel-item v-for="item in bannerList" :key="item.id">
             <img :src="item.imgUrl" alt="" />
-          </div>
-        </a-carousel>
+          </el-carousel-item>
+        </el-carousel>
       </div>
 
       <!-- 分类商品列表 -->
