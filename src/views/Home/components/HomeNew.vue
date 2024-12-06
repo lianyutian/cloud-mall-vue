@@ -17,7 +17,7 @@ getNewList()
     <template #main>
       <ul class="goods-list">
         <li v-for="item in newList" :key="item.id">
-          <RouterLink to="/">
+          <RouterLink :to="`/detail/${item.id}`">
             <!-- 使用自定义指令 -->
             <img v-img-lazy="item.picture" alt="" />
             <p class="name">{{ item.name }}</p>

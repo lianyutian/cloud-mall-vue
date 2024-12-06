@@ -11,7 +11,8 @@ defineProps({
       <div class="head">
         <!-- 主标题和副标题 -->
         <h3>
-          {{ titile }}<small>{{ subTitle }}</small>
+          {{ titile }}
+          <small>{{ subTitle }}</small>
         </h3>
       </div>
       <!-- 主体内容区域(具名插槽) -->

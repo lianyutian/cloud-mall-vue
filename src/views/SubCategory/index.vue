@@ -58,18 +58,19 @@ const load = async () => {
         <el-breadcrumb-item>
           <router-link to="/">首页</router-link>
         </el-breadcrumb-item>
-        <el-breadcrumb-item
-          ><RouterLink :to="`/category/${categoryFilter.parentId}`">{{
-            categoryFilter.parentName
-          }}</RouterLink></el-breadcrumb-item
-        >
+        <el-breadcrumb-item>
+          <RouterLink :to="`/category/${categoryFilter.parentId}`">
+            {{ categoryFilter.parentName }}
+          </RouterLink>
+        </el-breadcrumb-item>
         <el-breadcrumb-item>{{ categoryFilter.name }}</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="sub-container">
+      <!-- 分类筛选 -->
       <el-tabs v-model="activeName" @change="onChange">
         <el-tab-pane name="publishTime" label="最新商品"></el-tab-pane>
-        <el-tab-pane name="orderNum" label="最高人气"> </el-tab-pane>
+        <el-tab-pane name="orderNum" label="最高人气"></el-tab-pane>
         <el-tab-pane name="evaluateNum" label="评论最多"></el-tab-pane>
       </el-tabs>
       <div
@@ -78,7 +79,7 @@ const load = async () => {
         :infinite-scroll-disabled="disabled"
       >
         <!-- 商品列表-->
-        <GoodItem v-for="good in goodList" :goods="good" :key="good.id" />
+        <GoodItem v-for="good in goodList" :good="good" :key="good.id" />
       </div>
     </div>
   </div>

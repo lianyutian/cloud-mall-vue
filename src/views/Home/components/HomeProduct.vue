@@ -28,7 +28,7 @@ onMounted(() => getGoodsList())
           <ul class="goods-list">
             <li v-for="goods in cate.goods" :key="goods.id">
               <!-- 使用 GoodItem 组件 -->
-              <GoodItem :goods="goods" />
+              <GoodItem :good="goods" />
             </li>
           </ul>
         </div>

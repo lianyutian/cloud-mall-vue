@@ -6,7 +6,10 @@
       <ul>
         <template v-if="true">
           <li>
-            <a href="javascript:;"><i class="iconfont icon-user"></i>周杰伦</a>
+            <a href="javascript:;">
+              <i class="iconfont icon-user"></i>
+              周杰伦
+            </a>
           </li>
           <li>
             <el-popconfirm

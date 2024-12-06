@@ -14,9 +14,9 @@ const categoryStore = useCategoryStore()
         :key="item.id"
       >
         <!-- 配置分类路由跳转 -->
-        <RouterLink active-class="active" :to="`/category/${item.id}`">{{
-          item.name
-        }}</RouterLink>
+        <RouterLink active-class="active" :to="`/category/${item.id}`">
+          {{ item.name }}
+        </RouterLink>
       </li>
     </ul>
   </div>

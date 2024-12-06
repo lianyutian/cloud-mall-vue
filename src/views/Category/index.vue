@@ -48,7 +48,7 @@ const { topCategory } = useCategory()
           <h3>- {{ item.name }}-</h3>
         </div>
         <div class="body">
-          <GoodItem v-for="good in item.goods" :goods="good" :key="good.id" />
+          <GoodItem v-for="good in item.goods" :good="good" :key="good.id" />
         </div>
       </div>
     </div>
