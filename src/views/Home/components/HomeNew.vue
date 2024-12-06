@@ -17,6 +17,7 @@ getNewList()
     <template #main>
       <ul class="goods-list">
         <li v-for="item in newList" :key="item.id">
+          <!-- 配置商品详情页跳转 -->
           <RouterLink :to="`/detail/${item.id}`">
             <!-- 使用自定义指令 -->
             <img v-img-lazy="item.picture" alt="" />

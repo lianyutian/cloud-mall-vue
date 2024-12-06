@@ -19,6 +19,11 @@ onMounted(() => getDetail())
 
 <template>
   <div class="xtx-goods-page">
+    <!--
+            错误原因：goodDetail一开始{}  {}.categories -> undefined  -> undefined[1]
+            1. 可选链的语法?.
+            2. v-if手动控制渲染时机 保证只有数据存在才渲染
+    -->
     <div class="container" v-if="goodDetail.details">
       <div class="bread-container">
         <el-breadcrumb separator=">">
@@ -133,11 +138,17 @@ onMounted(() => getDetail())
                       <span class="dd">{{ item.value }}</span>
                     </li>
                   </ul>
-                  <!-- 图片 -->
+                  <!-- 详情图片 -->
+                  <img
+                    v-for="img in goodDetail.details.pictures"
+                    :src="img"
+                    :key="img"
+                    alt=""
+                  />
                 </div>
               </div>
             </div>
-            <!-- 24热榜+专题推荐 -->
+            <!-- 24热榜+周榜 -->
             <div class="goods-aside">
               <DetailHot :type="1" />
               <DetailHot :type="2" />
