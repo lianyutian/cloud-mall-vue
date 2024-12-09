@@ -3,7 +3,6 @@ import { onMounted, ref } from 'vue'
 import { getDetailAPI } from '@/apis/detail'
 import { useRoute } from 'vue-router'
 import DetailHot from './components/DetailHot.vue'
-import ImageView from '@/components/ImageView/index.vue'
 
 // 获取商品详细数
 const goodDetail = ref({})
@@ -14,7 +13,13 @@ const getDetail = async (id = route.params.id) => {
 }
 onMounted(() => getDetail())
 
-// 面包屑数据
+// sku组件触发
+// sku规格被操作时
+let skuObj = {}
+const skuChange = (skuData) => {
+  console.log(skuData)
+  skuObj = skuData
+}
 </script>
 
 <template>
@@ -111,6 +116,7 @@ onMounted(() => getDetail())
                 </dl>
               </div>
               <!-- sku组件 -->
+              <Sku :good="goodDetail" @change="skuChange"></Sku>
 
               <!-- 数据组件 -->
 
