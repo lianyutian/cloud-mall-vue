@@ -1,10 +1,21 @@
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
+import { useUserStore } from './userStore'
+import { addCartAPI, removeCartAPI, getNewCartListAPI } from '@/apis/cart'
 
 export const useCartStore = defineStore(
   'cart',
   () => {
     const cartListState = ref([])
+
+    const userStore = useUserStore()
+    const isLogin = computed(() => userStore.userInfo.token)
+
+    // 获取最新购物车列表action
+    const updateNewListAction = async () => {
+      const res = await getNewCartListAPI()
+      cartListState.value = res.result
+    }
 
     /*
       添加购物车: 入参
@@ -14,24 +25,38 @@ export const useCartStore = defineStore(
       inventory: sku.inventory,
       specsText: sku.specs
     */
-    const addCartAction = (good) => {
-      // 添加购物车操作
-      // 已添加过 - count + good.count
-      // 没有添加过 - 直接push
-      // 思路：通过匹配传递过来的商品对象中的skuId能不能在cartList中找到，找到了就是添加过
-      const item = cartListState.value.find((item) => item.skuId === good.skuId)
-      if (item) {
-        item.count += good.count
+    const addCartAction = async (good) => {
+      if (isLogin.value) {
+        // 登录之后的加入购车逻辑
+        const { skuId, count } = good
+        await addCartAPI(skuId, count)
+        updateNewListAction()
       } else {
-        cartListState.value.push(good)
+        // 添加购物车操作
+        // 已添加过 - count + good.count
+        // 没有添加过 - 直接push
+        // 思路：通过匹配传递过来的商品对象中的skuId能不能在cartList中找到，找到了就是添加过
+        const item = cartListState.value.find(
+          (item) => item.skuId === good.skuId
+        )
+        if (item) {
+          item.count += good.count
+        } else {
+          cartListState.value.push(good)
+        }
       }
     }
 
     // 移除购物车
-    const removeCartAction = (skuId) => {
-      cartListState.value = cartListState.value.filter(
-        (item) => item.skuId !== skuId
-      )
+    const removeCartAction = async (skuId) => {
+      if (isLogin.value) {
+        await removeCartAPI([skuId])
+        updateNewListAction()
+      } else {
+        cartListState.value = cartListState.value.filter(
+          (item) => item.skuId !== skuId
+        )
+      }
     }
 
     // 单选
@@ -66,15 +91,36 @@ export const useCartStore = defineStore(
       )
     })
 
+    // 已选商品数量
+    const selectedCount = computed(() => {
+      return cartListState.value
+        .filter((item) => item.selected)
+        .reduce((sum, item) => {
+          return sum + item.count
+        }, 0)
+    })
+
+    // 已选商品价格
+    const selectedPrice = computed(() => {
+      return cartListState.value
+        .filter((item) => item.selected)
+        .reduce((sum, item) => {
+          return sum + item.count * item.price
+        }, 0)
+    })
+
     return {
       cartListState,
       addCartAction,
       removeCartAction,
       singleCheckAction,
       allCheckAction,
+      updateNewListAction,
       allCount,
       allPrice,
       isAllCheck,
+      selectedCount,
+      selectedPrice,
     }
   },
   {
