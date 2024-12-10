@@ -9,7 +9,7 @@ export const useCartStore = defineStore(
     const cartListState = ref([])
 
     const userStore = useUserStore()
-    const isLogin = computed(() => userStore.userInfo.token)
+    const isLogin = computed(() => userStore.userInfo?.token)
 
     // 获取最新购物车列表action
     const updateNewListAction = async () => {
