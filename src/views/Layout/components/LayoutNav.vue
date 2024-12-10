@@ -13,7 +13,7 @@ const doLogout = () => {
   <nav class="app-topnav">
     <div class="container">
       <ul>
-        <template v-if="userStore.userState">
+        <template v-if="userStore.userState.nickname">
           <li>
             <a href="javascript:;">
               <i class="iconfont icon-user"></i>

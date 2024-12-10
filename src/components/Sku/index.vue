@@ -26,7 +26,6 @@ const getPathMap = (skus) => {
         // 得到 ["米白","73/18M"]
         const specVauleNames = sku.specs.map((spec) => spec.valueName)
         // 3. 得到sku属性值数组的子集(例如)
-        debugger
         const powerSet = getPowerSet(specVauleNames)
         // 4. 设置给路径字典对象
         powerSet.forEach((set) => {
@@ -70,22 +69,22 @@ const getSelectedArr = (specs) => {
 }
 
 // 更新按钮的禁用状态
-const updateDisabledStatus = (specs, pathMap) => {
-  // 遍历每一种规格
-  specs.forEach((item, i) => {
-    // 拿到当前选择的项目
-    const selectedArr = getSelectedArr(specs)
-    // 遍历每一个按钮
-    item.values.forEach((val) => {
-      if (!val.selected) {
-        selectedArr[i] = val.name
-        // 去掉undefined之后组合成key
-        const key = selectedArr.filter((value) => value).join(spliter)
-        val.disabled = !pathMap[key]
-      }
-    })
-  })
-}
+// const updateDisabledStatus = (specs, pathMap) => {
+//   // 遍历每一种规格下的sku(例如：颜色规格：白、红、蓝、绿、黄)
+//   specs.forEach((item, i) => {
+//     // 拿到当前选择的sku
+//     const selectedArr = getSelectedArr(specs)
+//     // 遍历每一个sku选项
+//     item.values.forEach((val) => {
+//       if (!val.selected) {
+//         selectedArr[i] = val.name
+//         // 去掉undefined之后组合成key
+//         const key = selectedArr.filter((value) => value).join(spliter)
+//         val.disabled = !pathMap.value[key]
+//       }
+//     })
+//   })
+// }
 
 // 监视skus属性和specs属性变化
 const pathMap = ref({})
@@ -93,12 +92,12 @@ watchEffect(() => {
   // 得到所有字典集合
   pathMap.value = getPathMap(props.good.skus)
   // 组件初始化的时候更新禁用状态
+  // 没有库存的禁用
   initDisabledStatus(props.good.specs, pathMap.value)
 })
 
 // 选中规格
 const clickSpecs = (item, val) => {
-  debugger
   if (val.disabled) return false
   // 选中与取消选中逻辑
   if (val.selected) {
@@ -113,7 +112,7 @@ const clickSpecs = (item, val) => {
   }
 
   // 点击之后再次更新选中状态
-  updateDisabledStatus(props.good.specs, pathMap)
+  //updateDisabledStatus(props.good.specs, pathMap)
   // 把选择的sku信息传出去给父组件
   // 触发change事件将sku数据传递出去
   const selectedArr = getSelectedArr(props.good.specs).filter((value) => value)
@@ -121,7 +120,7 @@ const clickSpecs = (item, val) => {
   // 否则传出空对象
   if (selectedArr.length === props.good.specs.length) {
     // 从路径字典中得到skuId
-    const skuId = pathMap[selectedArr.join(spliter)][0]
+    const skuId = pathMap.value[selectedArr.join(spliter)][0]
     const sku = props.good.skus.find((sku) => sku.id === skuId)
     // 传递数据给父组件
     emit('change', {

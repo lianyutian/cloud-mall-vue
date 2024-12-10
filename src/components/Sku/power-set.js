@@ -29,7 +29,9 @@ export default function getPowerSet(originalSet) {
     }
 
     // Add current subset to the list of all subsets.
-    subSets.push(subSet)
+    if (subSet.length > 0) {
+      subSets.push(subSet)
+    }
   }
 
   return subSets
