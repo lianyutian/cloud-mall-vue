@@ -1,14 +1,23 @@
-<script setup></script>
+<script setup>
+import router from '@/router'
+import { useUserStore } from '@/stores/userStore'
+
+const userStore = useUserStore()
+const doLogout = () => {
+  userStore.clearUserState()
+  router.push('/login')
+}
+</script>
 
 <template>
   <nav class="app-topnav">
     <div class="container">
       <ul>
-        <template v-if="true">
+        <template v-if="userStore.userState">
           <li>
             <a href="javascript:;">
               <i class="iconfont icon-user"></i>
-              周杰伦
+              {{ userStore.userState.nickname }}
             </a>
           </li>
           <li>
@@ -16,6 +25,7 @@
               title="确认退出吗?"
               confirm-button-text="确认"
               cancel-button-text="取消"
+              @confirm="doLogout"
             >
               <template #reference>
                 <a href="javascript:;">退出登录</a>
@@ -26,7 +36,9 @@
           <li><a href="javascript:;">会员中心</a></li>
         </template>
         <template v-else>
-          <li><a href="javascript:;">请先登录</a></li>
+          <li>
+            <a href="javascript:;" @click="router.push('/login')">请先登录</a>
+          </li>
           <li><a href="javascript:;">帮助中心</a></li>
           <li><a href="javascript:;">关于我们</a></li>
         </template>
