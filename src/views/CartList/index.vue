@@ -1,5 +1,6 @@
 <script setup>
 import { useCartStore } from '@/stores/cartStore'
+import { ref, watchEffect } from 'vue'
 
 const cartStore = useCartStore()
 
@@ -13,6 +14,11 @@ const singleCheck = (good, selected) => {
 const allCheck = (selected) => {
   cartStore.allCheckAction(selected)
 }
+let isAllCheck = ref(false)
+// 监听 isAllCheck 变化
+watchEffect(() => {
+  isAllCheck.value = cartStore.isAllCheck
+})
 </script>
 
 <template>
@@ -23,10 +29,7 @@ const allCheck = (selected) => {
           <thead>
             <tr>
               <th width="120">
-                <el-checkbox
-                  v-model="cartStore.isAllCheck"
-                  @change="allCheck(selected)"
-                />
+                <el-checkbox v-model="isAllCheck" @change="allCheck" />
               </th>
               <th width="400">商品信息</th>
               <th width="220">单价</th>
