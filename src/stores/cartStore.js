@@ -59,6 +59,11 @@ export const useCartStore = defineStore(
       }
     }
 
+    // 清空购物车
+    const clearCartAction = () => {
+      cartListState.value = []
+    }
+
     // 单选
     const singleCheckAction = (skuId, selected) => {
       // 通过skuId找到要修改的那一项 然后把它的selected修改为传过来的selected
@@ -116,6 +121,7 @@ export const useCartStore = defineStore(
       singleCheckAction,
       allCheckAction,
       updateNewListAction,
+      clearCartAction,
       allCount,
       allPrice,
       isAllCheck,

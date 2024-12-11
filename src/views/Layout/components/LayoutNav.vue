@@ -1,10 +1,13 @@
 <script setup>
 import router from '@/router'
 import { useUserStore } from '@/stores/userStore'
+import { useCartStore } from '@/stores/cartStore'
 
 const userStore = useUserStore()
+const cartStore = useCartStore()
 const doLogout = () => {
   userStore.clearUserState()
+  cartStore.clearCartAction()
   router.push('/login')
 }
 </script>
