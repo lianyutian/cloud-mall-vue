@@ -1,24 +1,18 @@
 <script setup>
 import { useCartStore } from '@/stores/cartStore'
-import { ref, watchEffect } from 'vue'
 
 const cartStore = useCartStore()
 
 // 单选回调
-const singleCheck = (good, selected) => {
+const singleCheck = (skuId, selected) => {
   // store cartList 数组 无法知道要修改谁的选中状态？
   // 除了selected补充一个用来筛选的参数 - skuId
-  cartStore.singleCheckAction(good.skuId, selected)
+  cartStore.singleCheckAction(skuId, selected)
 }
 
 const allCheck = (selected) => {
   cartStore.allCheckAction(selected)
 }
-let isAllCheck = ref(false)
-// 监听 isAllCheck 变化
-watchEffect(() => {
-  isAllCheck.value = cartStore.isAllCheck
-})
 </script>
 
 <template>
@@ -29,7 +23,10 @@ watchEffect(() => {
           <thead>
             <tr>
               <th width="120">
-                <el-checkbox v-model="isAllCheck" @change="allCheck" />
+                <el-checkbox
+                  :model-value="cartStore.isAllCheck"
+                  @change="allCheck"
+                />
               </th>
               <th width="400">商品信息</th>
               <th width="220">单价</th>
@@ -43,8 +40,8 @@ watchEffect(() => {
             <tr v-for="good in cartStore.cartListState" :key="good.id">
               <td>
                 <el-checkbox
-                  v-model="good.selected"
-                  @change="(selected) => singleCheck(good, selected)"
+                  :model-value="good.selected"
+                  @change="(selected) => singleCheck(good.skuId, selected)"
                 />
               </td>
               <td>
